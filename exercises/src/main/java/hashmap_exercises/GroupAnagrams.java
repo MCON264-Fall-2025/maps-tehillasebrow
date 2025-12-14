@@ -1,7 +1,6 @@
 package hashmap_exercises;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * LeetCode 49 - Group Anagrams
@@ -22,12 +21,25 @@ public class GroupAnagrams {
      * @return a list of groups, where each group is a list of anagrams
      */
     public List<List<String>> groupAnagrams(String[] strs) {
-        // TODO: implement
-        // Typical approach:
-        // - For each string, sort its characters to get a "canonical form"
-        // - Use a Map<String, List<String>>: canonicalForm -> list of words
-        // - Return the map's values as the result
-        return Collections.emptyList();
+        if (strs == null || strs.length == 0) {
+            return new ArrayList<>();
+        }
+
+        Map<String, List<String>> map = new HashMap<>();
+        for (String word : strs) {
+            if (word == null) {
+                continue; // or throw IllegalArgumentException, depending on requirements
+            }
+
+            char[] chars = word.toCharArray();
+            Arrays.sort(chars);
+            String canonicalForm = new String(chars);
+
+            map.computeIfAbsent(canonicalForm, k -> new ArrayList<>()).add(word);
+        }
+
+        return new ArrayList<>(map.values());
     }
+
 }
 
